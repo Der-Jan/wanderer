@@ -1,6 +1,12 @@
-FROM node:22-alpine
+FROM node:22-alpine AS build
+COPY . /app
 WORKDIR /app
-COPY ./build build/
+RUN npm ci
+RUN npm run build
+
+FROM node:22-alpine AS web
+WORKDIR /app
+COPY --from=build /app/build build/
 COPY package*.json .
 RUN npm ci --omit=dev
 EXPOSE 3000
