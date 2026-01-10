@@ -1,4 +1,4 @@
-x-common-env: &a1
+x-common-env: &cenv
   MEILI_URL: http://search:7700
   MEILI_MASTER_KEY: "$MEILI_MASTER_KEY"
   ORIGIN: "https://$WANDERER_HOST"
@@ -6,7 +6,7 @@ services:
   search:
     image: getmeili/meilisearch:v1.11.3
     environment:
-      <<: *a1
+      <<: *cenv
       MEILI_NO_ANALYTICS: "true"
     networks:
       - wanderer
@@ -25,7 +25,7 @@ services:
       search:
         condition: service_healthy
     environment:
-      <<: *a1
+      <<: *cenv
       POCKETBASE_ENCRYPTION_KEY: "$POCKETBASE_KEY"
     networks:
       - wanderer
@@ -51,7 +51,7 @@ services:
       wanderer-db:
         condition: service_healthy
     environment:
-      <<: *a1
+      <<: *cenv
       BODY_SIZE_LIMIT: Infinity
       PUBLIC_POCKETBASE_URL: http://wanderer-db:8090
       PUBLIC_DISABLE_SIGNUP: "false"
@@ -59,6 +59,7 @@ services:
       UPLOAD_USER: null
       UPLOAD_PASSWORD: null
       PUBLIC_OVERPASS_API_URL: https://overpass-api.de
+      PUBLIC_BROUTER_URL: https://$WANDERER_BROUTER_HOST
       PUBLIC_VALHALLA_URL: http://valhalla:8002
       PUBLIC_NOMINATIM_URL: https://nominatim.openstreetmap.org
     volumes:
