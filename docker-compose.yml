@@ -59,7 +59,7 @@ services:
       UPLOAD_USER: null
       UPLOAD_PASSWORD: null
       PUBLIC_OVERPASS_API_URL: https://overpass-api.de
-      PUBLIC_BROUTER_URL: https://$WANDERER_BROUTER_HOST
+      PUBLIC_BROUTER_URL: http://brouter:17777/
       PUBLIC_VALHALLA_URL: http://valhalla:8002
       PUBLIC_NOMINATIM_URL: https://nominatim.openstreetmap.org
     volumes:
@@ -96,14 +96,9 @@ services:
     image: ghcr.io/abrensch/brouter:v1.7.8
     volumes:
       - ./brouter-segments:/segments4
-      - ./brouter-profiles:/profiles
     networks:
-      - public20
-    labels:
-      - traefik.enable=true
-      - traefik.http.routers.brouter.rule=Host(`$WANDERER_BROUTER_HOST`)
-      - traefik.http.routers.brouter.service=brouter
-      - traefik.http.services.brouter.loadbalancer.server.port=17777
+      - wanderer
+
 networks:
   wanderer: null
   public20:
