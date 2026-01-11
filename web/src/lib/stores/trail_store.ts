@@ -180,7 +180,7 @@ export async function trails_show(id: string, handle?: string, share?: string, l
     return response as Trail;
 }
 
-export async function trails_create(trail: Trail, photos: File[], gpx: File | Blob | null, f: (url: RequestInfo | URL, config?: RequestInit) => Promise<Response> = fetch, user?: AuthRecord) {
+export async function trails_create(trail: Trail, photos: File[], gpx: File | Blob | null, original: File | Blob | null = null, f: (url: RequestInfo | URL, config?: RequestInit) => Promise<Response> = fetch, user?: AuthRecord) {
     user ??= get(currentUser)
     if (!user) {
         throw Error("Unauthenticated")
@@ -201,6 +201,10 @@ export async function trails_create(trail: Trail, photos: File[], gpx: File | Bl
 
     if (gpx) {
         formData.set("gpx", gpx);
+    }
+
+    if (original) {
+        formData.set("original_activity_file", original);
     }
 
     for (const photo of photos) {

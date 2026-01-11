@@ -14,7 +14,8 @@ export async function PUT(event: RequestEvent) {
     try {
         const data = await event.request.formData();
 
-        const { gpxData, gpxFile } = await fromFile(data.get("file") as Blob)
+        const orgFile = await data.get("file") as Blob;
+        const { gpxData, gpxFile } = await fromFile(orgFile)
 
         if (!gpxData.length) {
             throw new ClientResponseError({ status: 400, response: { message: "Empty file" } })
@@ -62,7 +63,7 @@ export async function PUT(event: RequestEvent) {
 
 
         try {
-            trail = await trails_create(trail, [], gpxFile, event.fetch, event.locals.user);
+            trail = await trails_create(trail, [], gpxFile, orgFile, event.fetch, event.locals.user);
         } catch (e: any) {
             console.error(e)
             return handleError(e)
