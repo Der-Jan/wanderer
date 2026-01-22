@@ -14,7 +14,7 @@
     import { validator } from "@felte/validator-zod";
     import { createForm } from "felte";
     import { _ } from "svelte-i18n";
-    import { INVALID, z } from "zod";
+    import { z } from "zod";
 
     let loading: boolean = $state(false);
     const { form, errors } = createForm<User>({
