@@ -120,7 +120,7 @@ export async function trails_search_bounding_box(northEast: M.LngLat, southWest:
     });
     const result: { page: number, totalPages: number, hits: Hits<TrailSearchResult> } = await r.json();
 
-    if (result.hits.length == 0) {
+    if ((result.hits == undefined) || result.hits.length == 0) {
         trails = [];
         return { trails: [], ...result }
     }

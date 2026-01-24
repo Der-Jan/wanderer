@@ -123,8 +123,8 @@ class EasyFit {
         case 'record':
           if (!startDate) {
             startDate = message.timestamp;
-            message.elapsed_time = 0;
           }
+          message.elapsed_time = message.timestamp-startDate;
           records.push(message);
           if (isCascadeNeeded) {
             tempRecords.push(message);
