@@ -47,7 +47,8 @@ export async function PUT(event: RequestEvent) {
             trail.location ??= location;
         }
 
-        trail.public = event.locals.settings.privacy.trails == "public"
+
+        trail.public = event.locals.settings.privacy?.trails == "public"
 
         // const log = new SummitLog(trail.date as string, {
         //     distance: trail.distance,
